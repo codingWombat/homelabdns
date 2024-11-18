@@ -1,0 +1,11 @@
+[package]
+name = "homelabdns"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.215", features = ["derive"] }
+reqwest = { version = "0.12.9", features = ["json"] }
+tokio = { version = "1.41.1", features = ["rt", "rt-multi-thread", "macros"] }
+chrono = { version = "0.4.38", features = ["serde"] }
+serde_json = "1.0.133"
