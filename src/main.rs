@@ -84,7 +84,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         'inner: loop {
             interval_timer.tick().await;
             println!("{:?}", dns_record);
-            if do_stuff(&configuration, &dns_record).await? || !running.load(Ordering::SeqCst) {
+            if check_and_update_record(&configuration, &dns_record).await? || !running.load(Ordering::SeqCst) {
                 break 'inner;
             }
         }
@@ -92,11 +92,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn do_stuff(ref configuration: &Configuration, ref dns_record: &DnsRecord) -> Result<bool, Error> {
+async fn check_and_update_record(ref configuration: &Configuration, ref dns_record: &DnsRecord) -> Result<bool, Error> {
     let ip_response = load_external_ip().await?;
     let mut ip_updated = false;
     println!("{:?}", ip_response.ip);
-
     if ip_response.ip == dns_record.content {
         println!("Up to date!");
     } else {
