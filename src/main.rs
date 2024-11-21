@@ -106,7 +106,7 @@ async fn check_and_update_record(ref configuration: &Configuration, ref dns_reco
             name: dns_record.name.to_string(),
             proxied: dns_record.proxied,
             ttl: dns_record.ttl,
-            content: dns_record.content.to_string(),
+            content: ip_response.ip,
             type_field: dns_record.type_field.to_string(),
         };
         update_dns_record(&configuration, patch_request).await?;
