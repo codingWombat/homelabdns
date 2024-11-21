@@ -1,5 +1,6 @@
-FROM rust:1.82 as build 
+FROM rust:bookworm as build 
 LABEL authors="codingwombat"
+LABEL org.opencontainers.image.source = "https://github.com/codingWombat/homelabdns"
 
 # create a new empty shell project
 RUN USER=root cargo new --bin homelabdns
@@ -19,7 +20,7 @@ RUN rm ./target/release/deps/homelabdns*
 RUN cargo build --release
 
 # our final base
-FROM debian:buster-slim
+FROM debian:bookworm
 COPY --from=build /homelabdns/target/release/homelabdns .
 
 CMD ["./homelabdns"]
